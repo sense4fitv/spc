@@ -287,7 +287,7 @@ class UserController extends BaseController
         $token = $this->userModel->generatePasswordSetToken($userId);
 
         // Send welcome email
-        //$this->emailService->sendWelcomeEmail($userId, $temporaryPassword, $token);
+        $this->emailService->sendWelcomeEmail($userId, $temporaryPassword, $token);
 
         return redirect()->to('/users')->with('success', 'Utilizatorul a fost creat cu succes. Un email cu datele de logare a fost trimis.');
     }
