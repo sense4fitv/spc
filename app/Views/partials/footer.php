@@ -524,6 +524,22 @@
     <script src="<?= site_url('assets/js/pusher-client.js') ?>"></script>
     <script src="<?= site_url('assets/js/notifications.js') ?>"></script>
 <?php endif; ?>
+
+<!-- Register Service Worker for PWA -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('<?= site_url('sw.js') ?>')
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                })
+                .catch(function(err) {
+                    // Silent fail - not critical if it doesn't register
+                    console.log('ServiceWorker registration failed');
+                });
+        });
+    }
+</script>
 </body>
 
 </html>

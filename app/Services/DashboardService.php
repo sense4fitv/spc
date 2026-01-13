@@ -811,6 +811,121 @@ class DashboardService
     }
 
     /**
+     * Get active tasks (status != 'completed') for a user based on their role
+     * 
+     * @param int $userId User ID
+     * @param string $role User role
+     * @param int|null $regionId User's region ID
+     * @return array Active tasks
+     */
+    public function getActiveTasks(int $userId, string $role, ?int $regionId = null): array
+    {
+        $cacheKey = "dashboard_active_tasks_{$role}_{$userId}_" . ($regionId ?? 'all');
+
+        $cached = $this->cache->get($cacheKey);
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        $db = \Config\Database::connect();
+
+        $query = $db->table('tasks t')
+            ->select('t.id, t.title, t.status, t.priority, t.deadline, t.description, t.created_at,
+                     c.name as contract_name, c.contract_number,
+                     r.name as region_name,
+                     sd.name as subdivision_name')
+            ->join('subdivisions sd', 'sd.id = t.subdivision_id', 'left')
+            ->join('contracts c', 'c.id = sd.contract_id', 'left')
+            ->join('regions r', 'r.id = c.region_id', 'left')
+            ->where('t.status !=', 'completed')
+            ->orderBy('t.priority', 'DESC')
+            ->orderBy('t.deadline', 'ASC')
+            ->orderBy('t.created_at', 'DESC');
+
+        // Apply role-based filtering
+        if ($role === 'manager') {
+            // Manager sees tasks from contracts assigned to him (via manager_id)
+            $query->where('c.manager_id', $userId);
+        } elseif ($role === 'director' && $regionId) {
+            // Director sees tasks from contracts in his region
+            $query->where('r.id', $regionId);
+        } elseif ($role === 'executant') {
+            $query->groupStart()
+                ->where('t.created_by', $userId)
+                ->orWhereIn('t.id', function ($builder) use ($userId) {
+                    return $builder->select('task_id')
+                        ->from('task_assignees')
+                        ->where('user_id', $userId);
+                })
+                ->groupEnd();
+        }
+
+        $tasks = $query->get()->getResultArray();
+
+        $this->cache->save($cacheKey, $tasks, $this->cacheTTL);
+
+        return $tasks;
+    }
+
+    /**
+     * Get overdue tasks (deadline < now AND status != 'completed') for a user based on their role
+     * 
+     * @param int $userId User ID
+     * @param string $role User role
+     * @param int|null $regionId User's region ID
+     * @return array Overdue tasks
+     */
+    public function getOverdueTasks(int $userId, string $role, ?int $regionId = null): array
+    {
+        $cacheKey = "dashboard_overdue_tasks_{$role}_{$userId}_" . ($regionId ?? 'all');
+
+        $cached = $this->cache->get($cacheKey);
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        $db = \Config\Database::connect();
+
+        $query = $db->table('tasks t')
+            ->select('t.id, t.title, t.status, t.priority, t.deadline, t.description, t.created_at,
+                     c.name as contract_name, c.contract_number,
+                     r.name as region_name,
+                     sd.name as subdivision_name')
+            ->join('subdivisions sd', 'sd.id = t.subdivision_id', 'left')
+            ->join('contracts c', 'c.id = sd.contract_id', 'left')
+            ->join('regions r', 'r.id = c.region_id', 'left')
+            ->where('t.status !=', 'completed')
+            ->where('t.deadline <', date('Y-m-d H:i:s'))
+            ->where('t.deadline IS NOT NULL', null, false)
+            ->orderBy('t.priority', 'DESC')
+            ->orderBy('t.deadline', 'ASC');
+
+        // Apply role-based filtering
+        if ($role === 'manager') {
+            // Manager sees tasks from contracts assigned to him (via manager_id)
+            $query->where('c.manager_id', $userId);
+        } elseif ($role === 'director' && $regionId) {
+            // Director sees tasks from contracts in his region
+            $query->where('r.id', $regionId);
+        } elseif ($role === 'executant') {
+            $query->groupStart()
+                ->where('t.created_by', $userId)
+                ->orWhereIn('t.id', function ($builder) use ($userId) {
+                    return $builder->select('task_id')
+                        ->from('task_assignees')
+                        ->where('user_id', $userId);
+                })
+                ->groupEnd();
+        }
+
+        $tasks = $query->get()->getResultArray();
+
+        $this->cache->save($cacheKey, $tasks, $this->cacheTTL);
+
+        return $tasks;
+    }
+
+    /**
      * Get region data for drill-down view
      */
     public function getRegionData(int $regionId): ?array

@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use App\Models\RegionModel;
 use App\Models\DepartmentModel;
 use App\Models\DepartmentHeadModel;
+use App\Models\AppSettingModel;
 use App\Services\UserManagementService;
 use App\Services\EmailService;
 use App\Services\DepartmentHeadService;
@@ -286,8 +287,14 @@ class UserController extends BaseController
         // Generate password set token
         $token = $this->userModel->generatePasswordSetToken($userId);
 
-        // Send welcome email
-        $this->emailService->sendWelcomeEmail($userId, $temporaryPassword, $token);
+        // Check if welcome email should be sent
+        $appSettingModel = new AppSettingModel();
+        $sendWelcomeEmail = $appSettingModel->isEnabled('send_welcome_email');
+
+        if ($sendWelcomeEmail) {
+            // Send welcome email
+            $this->emailService->sendWelcomeEmail($userId, $temporaryPassword, $token);
+        }
 
         return redirect()->to('/users')->with('success', 'Utilizatorul a fost creat cu succes. Un email cu datele de logare a fost trimis.');
     }

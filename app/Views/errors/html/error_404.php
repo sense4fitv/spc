@@ -66,6 +66,22 @@
         a:visited {
             color: #dd4814;
         }
+        .home-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.75rem 2rem;
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        .home-button:hover {
+            background-color: #333;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -79,6 +95,10 @@
                 <?= lang('Errors.sorryCannotFind') ?>
             <?php endif; ?>
         </p>
+
+        <div>
+            <a href="/dashboard" class="home-button">Acasă</a>
+        </div>
     </div>
 </body>
 </html>

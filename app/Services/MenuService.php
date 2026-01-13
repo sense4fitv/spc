@@ -59,6 +59,16 @@ class MenuService
             'url' => site_url('/dashboard'),
         ];
 
+        // Centrala - only for specific user
+        $userEmail = $session->get('email');
+        if ($userEmail === 'vlad.maican@supercom.ro') {
+            $menu[] = [
+                'label' => 'Centrala',
+                'icon' => 'bi-building',
+                'url' => site_url('/centrala'),
+            ];
+        }
+
         // Principal section - Operational items
         $principalItems = [];
 
@@ -127,6 +137,16 @@ class MenuService
             ];
         }
 
+        // Problematice - Admin and Director (level 80+)
+        if ($roleLevel >= 80) {
+            $adminItems[] = [
+                'label' => 'Problematici',
+                'icon' => 'bi-info-circle',
+                'url' => site_url('/issues'),
+                'minRoleLevel' => 80,
+            ];
+        }
+
         // Admin-only items (level 100)
         if ($roleLevel >= 100) {
             $adminItems[] = [
@@ -140,6 +160,13 @@ class MenuService
                 'label' => 'Departamente',
                 'icon' => 'bi-building',
                 'url' => site_url('/departments'),
+                'minRoleLevel' => 100,
+            ];
+
+            $adminItems[] = [
+                'label' => 'Setări Aplicatie',
+                'icon' => 'bi-gear',
+                'url' => site_url('/settings'),
                 'minRoleLevel' => 100,
             ];
         }

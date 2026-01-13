@@ -467,6 +467,86 @@ class DashboardController extends BaseController
     /**
      * Send a test global notification
      */
+    /**
+     * View active tasks
+     * GET /dashboard/active-tasks
+     */
+    public function activeTasks()
+    {
+        $session = service('session');
+        $userId = $session->get('user_id');
+        $role = $session->get('role');
+        $regionId = $session->get('region_id');
+
+        // Get active tasks
+        $tasks = $this->dashboardService->getActiveTasks($userId, $role, $regionId);
+
+        // Status and priority labels
+        $statusLabels = [
+            'new' => 'Nou',
+            'in_progress' => 'În progres',
+            'blocked' => 'Blocat',
+            'review' => 'În revizie',
+            'completed' => 'Finalizat',
+        ];
+
+        $statusBadgeClasses = [
+            'new' => 'bg-subtle-gray',
+            'in_progress' => 'bg-subtle-blue',
+            'blocked' => 'bg-subtle-red',
+            'review' => 'bg-subtle-yellow',
+            'completed' => 'bg-subtle-green',
+        ];
+
+        $data = [
+            'tasks' => $tasks,
+            'statusLabels' => $statusLabels,
+            'statusBadgeClasses' => $statusBadgeClasses,
+        ];
+
+        return view('dashboard/active-tasks', $data);
+    }
+
+    /**
+     * View overdue tasks
+     * GET /dashboard/overdue-tasks
+     */
+    public function overdueTasks()
+    {
+        $session = service('session');
+        $userId = $session->get('user_id');
+        $role = $session->get('role');
+        $regionId = $session->get('region_id');
+
+        // Get overdue tasks
+        $tasks = $this->dashboardService->getOverdueTasks($userId, $role, $regionId);
+
+        // Status and priority labels
+        $statusLabels = [
+            'new' => 'Nou',
+            'in_progress' => 'În progres',
+            'blocked' => 'Blocat',
+            'review' => 'În revizie',
+            'completed' => 'Finalizat',
+        ];
+
+        $statusBadgeClasses = [
+            'new' => 'bg-subtle-gray',
+            'in_progress' => 'bg-subtle-blue',
+            'blocked' => 'bg-subtle-red',
+            'review' => 'bg-subtle-yellow',
+            'completed' => 'bg-subtle-green',
+        ];
+
+        $data = [
+            'tasks' => $tasks,
+            'statusLabels' => $statusLabels,
+            'statusBadgeClasses' => $statusBadgeClasses,
+        ];
+
+        return view('dashboard/overdue-tasks', $data);
+    }
+
     protected function testGlobalNotification(string $message): void
     {
         $notificationService = new NotificationService();

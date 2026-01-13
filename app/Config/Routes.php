@@ -30,6 +30,10 @@ $routes->group('auth', ['filter' => 'csrf'], function ($routes) {
 $routes->group('dashboard', ['filter' => 'auth:admin,director,manager,executant,auditor'], function ($routes) {
     $routes->get('/', 'DashboardController::index');
 
+    // Task lists
+    $routes->get('active-tasks', 'DashboardController::activeTasks');
+    $routes->get('overdue-tasks', 'DashboardController::overdueTasks');
+
     // Drill-down routes
     $routes->get('region/(:num)', 'DashboardController::regionView/$1');
     $routes->get('department/(:num)/region/(:num)', 'DashboardController::departmentView/$1/$2');
@@ -38,6 +42,12 @@ $routes->group('dashboard', ['filter' => 'auth:admin,director,manager,executant,
 
     // Chart data API (for period filtering)
     $routes->get('chart/tasks-region', 'DashboardController::getChartData');
+});
+
+// Profile Routes - all authenticated users
+$routes->group('profile', ['filter' => 'auth:admin,director,manager,executant,auditor'], function ($routes) {
+    $routes->get('/', 'ProfileController::index');
+    $routes->post('update', 'ProfileController::update');
 });
 
 // Notification API Routes - require authentication
@@ -85,6 +95,12 @@ $routes->group('departments', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('edit/(:num)', 'DepartmentController::edit/$1');
     $routes->post('update/(:num)', 'DepartmentController::update/$1');
     $routes->post('delete/(:num)', 'DepartmentController::delete/$1');
+});
+
+// Settings Routes - only admin
+$routes->group('settings', ['filter' => 'auth:admin'], function ($routes) {
+    $routes->get('/', 'SettingsController::index');
+    $routes->post('update', 'SettingsController::update');
 });
 
 // Contract Management Routes - admin, director, manager (view only for manager)
@@ -138,6 +154,38 @@ $routes->group('tasks', ['filter' => 'auth:admin,director,manager,executant,audi
 // File download route - requires authentication
 $routes->group('tasks/files', ['filter' => 'auth:admin,director,manager,executant,auditor'], function ($routes) {
     $routes->get('download/(:num)', 'TaskController::downloadFile/$1');
+});
+
+// Issues Routes - admin, director (with permission checks in controller)
+$routes->group('issues', ['filter' => 'auth:admin,director'], function ($routes) {
+    // List issues (cards view) - admin and director
+    $routes->get('/', 'IssueController::index');
+
+    // Create issue - admin and director
+    $routes->get('create', 'IssueController::create');
+    $routes->post('store', 'IssueController::store');
+
+    // View issue details - admin and director (with permission check)
+    $routes->get('view/(:num)', 'IssueController::view/$1');
+
+    // Edit issue - admin and director
+    $routes->get('edit/(:num)', 'IssueController::edit/$1');
+    $routes->post('update/(:num)', 'IssueController::update/$1');
+
+    // Archive issue - admin only (with permission check in controller)
+    $routes->post('archive/(:num)', 'IssueController::archive/$1');
+
+    // Issue actions - AJAX endpoints
+    $routes->post('(:num)/comment', 'IssueController::addComment/$1');
+    $routes->post('(:num)/upload-file', 'IssueController::uploadFile/$1');
+    $routes->get('(:num)/download-file/(:num)', 'IssueController::downloadFile/$1/$2');
+});
+
+// Centrala Routes - only for specific user (check in controller)
+$routes->group('centrala', ['filter' => 'auth:admin,director,manager,executant,auditor'], function ($routes) {
+    $routes->get('/', 'CentralaController::index');
+    $routes->get('admin/(:num)', 'CentralaController::adminTasks/$1');
+    $routes->get('region/(:num)', 'CentralaController::regionTasks/$1');
 });
 
 // Reports Routes - only for Director and Admin (level 80+)

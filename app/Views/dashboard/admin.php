@@ -18,23 +18,31 @@
     <!-- KPI CARDS -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-5">
         <div class="col">
-            <div class="spor-card p-4 h-100">
-                <div class="text-muted fw-medium text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Sarcini Active</div>
-                <div class="d-flex align-items-baseline gap-2 mt-2">
-                    <h3 class="fw-bold m-0"><?= $kpis['active_tasks'] ?? 0 ?></h3>
+            <a href="<?= site_url('dashboard/active-tasks') ?>" class="text-decoration-none">
+                <div class="spor-card p-4 h-100" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';"
+                    onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                    <div class="text-muted fw-medium text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Sarcini Active</div>
+                    <div class="d-flex align-items-baseline gap-2 mt-2">
+                        <h3 class="fw-bold m-0"><?= $kpis['active_tasks'] ?? 0 ?></h3>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col">
-            <div class="spor-card p-4 h-100">
-                <div class="text-muted fw-medium text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Întârziate</div>
-                <div class="d-flex align-items-baseline gap-2 mt-2">
-                    <h3 class="fw-bold m-0 text-danger"><?= $kpis['overdue_tasks'] ?? 0 ?></h3>
-                    <?php if (($kpis['overdue_tasks'] ?? 0) > 0): ?>
-                        <span class="text-danger small fw-medium bg-danger-subtle px-1 rounded">Critical</span>
-                    <?php endif; ?>
+            <a href="<?= site_url('dashboard/overdue-tasks') ?>" class="text-decoration-none">
+                <div class="spor-card p-4 h-100" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';"
+                    onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                    <div class="text-muted fw-medium text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Întârziate</div>
+                    <div class="d-flex align-items-baseline gap-2 mt-2">
+                        <h3 class="fw-bold m-0 text-danger"><?= $kpis['overdue_tasks'] ?? 0 ?></h3>
+                        <?php if (($kpis['overdue_tasks'] ?? 0) > 0): ?>
+                            <span class="text-danger small fw-medium bg-danger-subtle px-1 rounded">Critical</span>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col">
             <div class="spor-card p-4 h-100">

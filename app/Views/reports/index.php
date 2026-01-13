@@ -84,24 +84,24 @@
                         <i class="bi bi-clock me-1"></i>Actualizat acum
                     </span>
                 </div>
-                
+
                 <div class="mb-3">
                     <p class="text-secondary small mb-2"><strong>Include:</strong></p>
                     <ul class="text-secondary small mb-0" style="list-style: none; padding-left: 0;">
-                        <li><i class="bi bi-check-circle text-success me-2"></i>Task-uri per regiune</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Sarcini per Sucursală</li>
                         <li><i class="bi bi-check-circle text-success me-2"></i>Workload distribution</li>
-                        <li><i class="bi bi-check-circle text-success me-2"></i>Comparație regiuni (grafice)</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Comparație Sucursale (grafice)</li>
                     </ul>
                 </div>
-                
+
                 <div class="border-top pt-3 mb-3" id="operationalPreview">
                     <div class="row g-3">
                         <div class="col-4">
-                            <small class="text-muted d-block">Regiuni</small>
+                            <small class="text-muted d-block">Sucursale</small>
                             <strong id="operationalRegions"><?= $preview_stats['operational']['regions'] ?? 0 ?></strong>
                         </div>
                         <div class="col-4">
-                            <small class="text-muted d-block">Task-uri Active</small>
+                            <small class="text-muted d-block">Sarcini Active</small>
                             <strong id="operationalTasks"><?= $preview_stats['operational']['tasks'] ?? 0 ?></strong>
                         </div>
                         <div class="col-4">
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="d-flex gap-2 border-top pt-3">
                     <button class="btn btn-sm btn-spor-secondary" onclick="previewReport('operational')">
                         <i class="bi bi-eye me-2"></i>Preview
@@ -135,14 +135,14 @@
                         </div>
                         <div>
                             <h5 class="fw-bold m-0 text-dark">Raport Contracte & Performanță</h5>
-                            <small class="text-muted">Progres contracte, task-uri, deadline-uri</small>
+                            <small class="text-muted">Progres contracte, sarcini, deadline-uri</small>
                         </div>
                     </div>
                     <span class="badge bg-light text-secondary border" id="contractsLastUpdate">
                         <i class="bi bi-clock me-1"></i>Actualizat acum
                     </span>
                 </div>
-                
+
                 <div class="mb-3">
                     <p class="text-secondary small mb-2"><strong>Include:</strong></p>
                     <ul class="text-secondary small mb-0" style="list-style: none; padding-left: 0;">
@@ -151,7 +151,7 @@
                         <li><i class="bi bi-check-circle text-success me-2"></i>Deadline-uri următoare</li>
                     </ul>
                 </div>
-                
+
                 <div class="border-top pt-3 mb-3" id="contractsPreview">
                     <div class="row g-3">
                         <div class="col-4">
@@ -163,12 +163,12 @@
                             <strong id="contractsActive"><?= $preview_stats['contracts']['active'] ?? 0 ?></strong>
                         </div>
                         <div class="col-4">
-                            <small class="text-muted d-block">Task-uri</small>
+                            <small class="text-muted d-block">Sarcini</small>
                             <strong id="contractsTasks"><?= $preview_stats['contracts']['tasks'] ?? 0 ?></strong>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="d-flex gap-2 border-top pt-3">
                     <button class="btn btn-sm btn-spor-secondary" onclick="previewReport('contracts')">
                         <i class="bi bi-eye me-2"></i>Preview
@@ -200,16 +200,16 @@
                         <i class="bi bi-clock me-1"></i>Actualizat acum
                     </span>
                 </div>
-                
+
                 <div class="mb-3">
                     <p class="text-secondary small mb-2"><strong>Include:</strong></p>
                     <ul class="text-secondary small mb-0" style="list-style: none; padding-left: 0;">
-                        <li><i class="bi bi-check-circle text-success me-2"></i>Utilizatori activi per regiune</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Utilizatori activi per Sucursală</li>
                         <li><i class="bi bi-check-circle text-success me-2"></i>Workload distribution</li>
                         <li><i class="bi bi-check-circle text-success me-2"></i>Top performers</li>
                     </ul>
                 </div>
-                
+
                 <div class="border-top pt-3 mb-3" id="resourcesPreview">
                     <div class="row g-3">
                         <div class="col-4">
@@ -217,16 +217,16 @@
                             <strong id="resourcesUsers"><?= $preview_stats['resources']['users'] ?? 0 ?></strong>
                         </div>
                         <div class="col-4">
-                            <small class="text-muted d-block">Task-uri Create</small>
+                            <small class="text-muted d-block">Sarcini Create</small>
                             <strong id="resourcesCreated"><?= $preview_stats['resources']['created'] ?? 0 ?></strong>
                         </div>
                         <div class="col-4">
-                            <small class="text-muted d-block">Task-uri Finalizate</small>
+                            <small class="text-muted d-block">Sarcini Finalizate</small>
                             <strong id="resourcesCompleted"><?= $preview_stats['resources']['completed'] ?? 0 ?></strong>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="d-flex gap-2 border-top pt-3">
                     <button class="btn btn-sm btn-spor-secondary" onclick="previewReport('resources')">
                         <i class="bi bi-eye me-2"></i>Preview
@@ -250,24 +250,24 @@
                             <i class="bi bi-exclamation-triangle fs-4"></i>
                         </div>
                         <div>
-                            <h5 class="fw-bold m-0 text-dark">Raport Task-uri Critice</h5>
-                            <small class="text-muted">Task-uri blocked, întârziate, prioritare</small>
+                            <h5 class="fw-bold m-0 text-dark">Raport Sarcini Critice</h5>
+                            <small class="text-muted">Sarcini blocked, întârziate, prioritare</small>
                         </div>
                     </div>
                     <span class="badge bg-light text-secondary border" id="criticalLastUpdate">
                         <i class="bi bi-clock me-1"></i>Actualizat acum
                     </span>
                 </div>
-                
+
                 <div class="mb-3">
                     <p class="text-secondary small mb-2"><strong>Include:</strong></p>
                     <ul class="text-secondary small mb-0" style="list-style: none; padding-left: 0;">
-                        <li><i class="bi bi-check-circle text-success me-2"></i>Task-uri blocked + întârziate</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Sarcini blocked + întârziate</li>
                         <li><i class="bi bi-check-circle text-success me-2"></i>Top 20 prioritare critică</li>
-                        <li><i class="bi bi-check-circle text-success me-2"></i>Task-uri expirate > 7 zile</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Sarcini expirate > 7 zile</li>
                     </ul>
                 </div>
-                
+
                 <div class="border-top pt-3 mb-3" id="criticalPreview">
                     <div class="row g-3">
                         <div class="col-4">
@@ -284,7 +284,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="d-flex gap-2 border-top pt-3">
                     <button class="btn btn-sm btn-spor-secondary" onclick="previewReport('critical')">
                         <i class="bi bi-eye me-2"></i>Preview
@@ -328,140 +328,139 @@
 </div>
 
 <script>
-let currentReportType = null;
-let previewModal = null;
+    let currentReportType = null;
+    let previewModal = null;
 
-document.addEventListener('DOMContentLoaded', function() {
-    previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
-});
-
-function setQuickFilter(period) {
-    // Remove active class from all buttons
-    document.querySelectorAll('[data-period]').forEach(btn => {
-        btn.classList.remove('active');
+    document.addEventListener('DOMContentLoaded', function() {
+        previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
     });
-    
-    // Add active to clicked button
-    event.target.closest('[data-period]').classList.add('active');
-    
-    const today = new Date();
-    let dateFrom, dateTo = today.toISOString().split('T')[0];
-    
-    switch(period) {
-        case '7days':
-            dateFrom = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-            break;
-        case '30days':
-            dateFrom = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-            break;
-        case '3months':
-            dateFrom = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-            break;
-        case 'custom':
-            // Custom dates already set
-            return;
+
+    function setQuickFilter(period) {
+        // Remove active class from all buttons
+        document.querySelectorAll('[data-period]').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Add active to clicked button
+        event.target.closest('[data-period]').classList.add('active');
+
+        const today = new Date();
+        let dateFrom, dateTo = today.toISOString().split('T')[0];
+
+        switch (period) {
+            case '7days':
+                dateFrom = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                break;
+            case '30days':
+                dateFrom = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                break;
+            case '3months':
+                dateFrom = new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                break;
+            case 'custom':
+                // Custom dates already set
+                return;
+        }
+
+        document.getElementById('filterDateFrom').value = dateFrom;
+        document.getElementById('filterDateTo').value = dateTo;
+
+        updatePreviewStats();
     }
-    
-    document.getElementById('filterDateFrom').value = dateFrom;
-    document.getElementById('filterDateTo').value = dateTo;
-    
-    updatePreviewStats();
-}
 
-function toggleCustomDateRange() {
-    // Just enable the date inputs
-    setQuickFilter('custom');
-}
+    function toggleCustomDateRange() {
+        // Just enable the date inputs
+        setQuickFilter('custom');
+    }
 
-function getFilters() {
-    return {
-        date_from: document.getElementById('filterDateFrom').value,
-        date_to: document.getElementById('filterDateTo').value,
-        region_id: document.getElementById('filterRegion').value || null,
-    };
-}
+    function getFilters() {
+        return {
+            date_from: document.getElementById('filterDateFrom').value,
+            date_to: document.getElementById('filterDateTo').value,
+            region_id: document.getElementById('filterRegion').value || null,
+        };
+    }
 
-function updatePreviewStats() {
-    // TODO: Implement AJAX call to update preview stats
-    // For now, just show loading state
-    console.log('Updating preview stats with filters:', getFilters());
-}
+    function updatePreviewStats() {
+        // TODO: Implement AJAX call to update preview stats
+        // For now, just show loading state
+        console.log('Updating preview stats with filters:', getFilters());
+    }
 
-function previewReport(type) {
-    currentReportType = type;
-    previewModal.show();
-    
-    const filters = getFilters();
-    const params = new URLSearchParams(filters);
-    
-    fetch(`<?= site_url('/reports/preview') ?>/${type}?${params}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById('previewModalBody').innerHTML = generatePreviewHTML(type, data.data);
-                document.getElementById('previewModalLabel').textContent = getReportTitle(type);
-                
-                // Update export button
-                document.getElementById('exportFromPreview').onclick = function() {
-                    exportReport(type, 'pdf');
-                };
-            } else {
-                document.getElementById('previewModalBody').innerHTML = `
+    function previewReport(type) {
+        currentReportType = type;
+        previewModal.show();
+
+        const filters = getFilters();
+        const params = new URLSearchParams(filters);
+
+        fetch(`<?= site_url('/reports/preview') ?>/${type}?${params}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('previewModalBody').innerHTML = generatePreviewHTML(type, data.data);
+                    document.getElementById('previewModalLabel').textContent = getReportTitle(type);
+
+                    // Update export button
+                    document.getElementById('exportFromPreview').onclick = function() {
+                        exportReport(type, 'pdf');
+                    };
+                } else {
+                    document.getElementById('previewModalBody').innerHTML = `
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-circle me-2"></i>${data.message || 'Eroare la încărcarea raportului.'}
                     </div>
                 `;
-            }
-        })
-        .catch(error => {
-            document.getElementById('previewModalBody').innerHTML = `
+                }
+            })
+            .catch(error => {
+                document.getElementById('previewModalBody').innerHTML = `
                 <div class="alert alert-danger">
                     <i class="bi bi-exclamation-circle me-2"></i>Eroare la încărcarea raportului: ${error.message}
                 </div>
             `;
-        });
-}
+            });
+    }
 
-function exportReport(type, format) {
-    const filters = getFilters();
-    const params = new URLSearchParams(filters);
-    
-    window.location.href = `<?= site_url('/reports/export') ?>/${type}/${format}?${params}`;
-}
+    function exportReport(type, format) {
+        const filters = getFilters();
+        const params = new URLSearchParams(filters);
 
-function getReportTitle(type) {
-    const titles = {
-        'operational': 'Raport Operațional Regional',
-        'contracts': 'Raport Contracte & Performanță',
-        'resources': 'Raport Resurse',
-        'critical': 'Raport Task-uri Critice',
-    };
-    return titles[type] || 'Raport';
-}
+        window.location.href = `<?= site_url('/reports/export') ?>/${type}/${format}?${params}`;
+    }
 
-function generatePreviewHTML(type, data) {
-    // Simple preview generation - can be enhanced
-    let html = '<div class="table-responsive"><table class="table table-sm">';
-    
-    switch(type) {
-        case 'operational':
-            html += '<thead><tr><th>Regiune</th><th>Contracte</th><th>Task-uri Active</th><th>Utilizatori</th></tr></thead><tbody>';
-            data.regions.forEach(region => {
-                html += `<tr>
+    function getReportTitle(type) {
+        const titles = {
+            'operational': 'Raport Operațional Regional',
+            'contracts': 'Raport Contracte & Performanță',
+            'resources': 'Raport Resurse',
+            'critical': 'Raport Sarcini Critice',
+        };
+        return titles[type] || 'Raport';
+    }
+
+    function generatePreviewHTML(type, data) {
+        // Simple preview generation - can be enhanced
+        let html = '<div class="table-responsive"><table class="table table-sm">';
+
+        switch (type) {
+            case 'operational':
+                html += '<thead><tr><th>Sucursală</th><th>Contracte</th><th>Sarcini Active</th><th>Utilizatori</th></tr></thead><tbody>';
+                data.regions.forEach(region => {
+                    html += `<tr>
                     <td>${region.name}</td>
                     <td>${region.contracts_count}</td>
                     <td>${region.active_tasks_count}</td>
                     <td>${region.users_count}</td>
                 </tr>`;
-            });
-            break;
-        // Add other cases...
+                });
+                break;
+                // Add other cases...
+        }
+
+        html += '</tbody></table></div>';
+        return html;
     }
-    
-    html += '</tbody></table></div>';
-    return html;
-}
 </script>
 
 <?= $this->endSection() ?>
-
