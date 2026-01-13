@@ -598,28 +598,28 @@ class TaskController extends BaseController
         $currentUserId = $this->session->get('user_id');
 
         if (!$currentUserId) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ești autentificat.']);
+            return redirect()->to('/auth/login')->with('error', 'Nu ești autentificat.');
         }
 
         // Check if user can delete this task
         if (!$this->taskManagementService->canDeleteTask($currentUserId, $id)) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ai permisiunea să ștergi acesata sarcină.']);
+            return redirect()->to('/tasks')->with('error', 'Nu ai permisiunea să ștergi acesata sarcină.');
         }
 
         // Get task
         $task = $this->taskModel->find($id);
 
         if (!$task) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Sarcina nu există.']);
+            return redirect()->to('/tasks')->with('error', 'Sarcina nu există.');
         }
 
         // Delete task (will cascade to assignees, departments, comments, files, logs)
         $deleted = $this->taskModel->delete($id);
 
         if ($deleted) {
-            return $this->response->setJSON(['success' => true, 'message' => 'Sarcina a fost ștersă cu succes.']);
+            return redirect()->to('/tasks')->with('success', 'Sarcina a fost ștersă cu succes.');
         } else {
-            return $this->response->setJSON(['success' => false, 'message' => 'Eroare la ștergerea sarcinii.']);
+            return redirect()->to('/tasks')->with('error', 'Eroare la ștergerea sarcinii.');
         }
     }
 
@@ -632,32 +632,28 @@ class TaskController extends BaseController
         $currentUserId = $this->session->get('user_id');
 
         if (!$currentUserId) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ești autentificat.']);
+            return redirect()->to('/auth/login')->with('error', 'Nu ești autentificat.');
         }
 
         // Check if user can view this task
         if (!$this->taskManagementService->canViewTask($currentUserId, $id)) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ai permisiunea să accesezi acesata sarcină.']);
+            return redirect()->to('/tasks')->with('error', 'Nu ai permisiunea să accesezi acesata sarcină.');
         }
 
         // Validate input
         $comment = $this->request->getPost('comment');
 
         if (empty(trim($comment))) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Comentariul nu poate fi gol.']);
+            return redirect()->to('/tasks')->with('error', 'Comentariul nu poate fi gol.');
         }
 
         // Add comment using TaskService
         $result = $this->taskService->addComment($id, trim($comment), $currentUserId);
 
         if ($result['success']) {
-            return $this->response->setJSON([
-                'success' => true,
-                'message' => $result['message'],
-                'comment_id' => $result['comment_id'],
-            ]);
+            return redirect()->to('/tasks/view/' . $id)->with('success', $result['message']);
         } else {
-            return $this->response->setJSON(['success' => false, 'message' => $result['message']]);
+            return redirect()->to('/tasks/view/' . $id)->with('error', $result['message']);
         }
     }
 
@@ -670,19 +666,19 @@ class TaskController extends BaseController
         $currentUserId = $this->session->get('user_id');
 
         if (!$currentUserId) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ești autentificat.']);
+            return redirect()->to('/auth/login')->with('error', 'Nu ești autentificat.');
         }
 
         // Check if user can view this task
         if (!$this->taskManagementService->canViewTask($currentUserId, $id)) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ai permisiunea să accesezi acesata sarcină.']);
+            return redirect()->to('/tasks')->with('error', 'Nu ai permisiunea să accesezi acesata sarcină.');
         }
 
         // Get uploaded files
         $files = $this->request->getFiles();
 
         if (empty($files) || !isset($files['files'])) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu a fost încărcat niciun fișier.']);
+            return redirect()->to('/tasks')->with('error', 'Nu a fost încărcat niciun fișier.');
         }
 
         // Upload files using FileService
@@ -720,7 +716,7 @@ class TaskController extends BaseController
             }
         }
 
-        return $this->response->setJSON($result);
+        return redirect()->to('/tasks/view/' . $id)->with('success', $result['message']);
     }
 
     /**
@@ -755,14 +751,14 @@ class TaskController extends BaseController
         $currentUserId = $this->session->get('user_id');
 
         if (!$currentUserId) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ești autentificat.']);
+            return redirect()->to('/auth/login')->with('error', 'Nu ești autentificat.');
         }
 
         // Get task
         $task = $this->taskModel->find($id);
 
         if (!$task) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Sarcina nu există.']);
+            return redirect()->to('/tasks')->with('error', 'Sarcina nu există.');
         }
 
         // Check permissions: can edit or is assignee
@@ -782,19 +778,19 @@ class TaskController extends BaseController
         }
 
         if (!$canEdit && !$isAssignee) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Nu ai permisiunea să modifici statusul acesatei sarcini.']);
+            return redirect()->to('/tasks')->with('error', 'Nu ai permisiunea să modifici statusul acesatei sarcini.');
         }
 
         // Get new status
         $newStatus = $this->request->getPost('status');
 
         if (empty($newStatus)) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Status-ul nu a fost specificat.']);
+            return redirect()->to('/tasks')->with('error', 'Status-ul nu a fost specificat.');
         }
 
         // Update status using TaskService (includes workflow validation)
         $result = $this->taskService->updateTaskStatus($id, $newStatus, $currentUserId);
 
-        return $this->response->setJSON($result);
+        return redirect()->to('/tasks/view/' . $id)->with('success', $result['message']);
     }
 }
